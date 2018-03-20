@@ -107,7 +107,14 @@ module Kitchen
             {
               mkdir 'c:/configurations' | out-null
             }
-  
+
+            # trying to fix issue with the suite patch not existing during the 
+            # "Running the configuration" stage of kitchen converge
+            if (-not (test-path 'c:/configurations/#{configuration}'))
+            {
+              mkdir 'c:/configurations/#{configuration}' | out-null
+            }
+ 
             if (-not (get-command #{configuration}))
             {
               throw "Failed to create a configuration command #{configuration}"
